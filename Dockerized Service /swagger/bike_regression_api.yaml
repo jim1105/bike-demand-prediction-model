@@ -1,0 +1,50 @@
+swagger: '2.0'
+info:
+  title: Bike Regression API
+  version: "0.1"
+  description: An API that can predict weekly bicycle demand
+
+paths:
+  /health:
+    get:
+      summary: Checks the health of the service
+      description: Returns the health status of the service
+      operationId: bike_regression_api.health
+      responses:
+        '200':
+          description: Service is healthy
+        '500':
+          description: Service is unhealthy
+
+  /predict:
+    post:
+      summary: Entrypoint to our prediction function
+      operationId: bike_regression_api.predict
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      parameters:
+        - in: formData
+          name: station_id
+          required: true
+          description: station id 
+          type: string
+          enum: ['UD-07', 'CH-15', 'PS-05', 'CBD-13', 'BT-04', 'CH-12', 'BT-05', 'CH-09', 'EL-05', 'WF-01', 'UW-10', 'UW-04', 'CH-01', 'CH-08', 'SLU-01', 'SLU-17', 'FH-04', 'SLU-04', 'CBD-07', 'SLU-18', 'SLU-07', 'EL-01', 'CBD-03', 'PS-04', 'SLU-15', 'UW-07', 'UD-02', 'DPD-03', 'CBD-05', 'DPD-01', 'UD-04', 'ID-04', 'WF-04', 'CBD-06', 'EL-03', 'UW-06', 'UD-01', 'FH-01', 'CH-02', 'SLU-16', 'BT-03', 'CH-06', 'BT-01', 'UW-02', 'CH-07', 'CH-03', 'SLU-19', 'SLU-02', 'CH-05', 'UW-01', 'CD-01', 'Pronto shop', 'SLU-20', 'CBD-04', 'SLU-21', 'UW-11', 'CH-16', 'Pronto shop 2', 'SLU-22', 'WF-03', '8D OPS 02']
+        - in: formData
+          name: month
+          required: true
+          description: month
+          type: number
+          enum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        - in: formData
+          name: week
+          required: true
+          description: week number of month
+          type: number
+          enum: [1, 2, 3, 4, 5]
+      responses:
+        '200':
+          description: Regression performed successfully
+        '500':
+          description: Unable to perform the regression
